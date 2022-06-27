@@ -25,7 +25,27 @@ public class ProductsRepository {
         return Collections.unmodifiableList(items);
     }
 
+    public Product getItemById(Long id) {
+        return items.stream()
+                .filter(p -> p.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
     public void add(Product product) {
+        product.setId(items.size()+1L);
         items.add(product);
+    }
+
+    public void deleteAllItems() {
+        items.clear();
+    }
+
+    public void deleteItemsById(Long id) {
+       Product prod = items.stream()
+               .filter(p -> p.getId().equals(id))
+               .findFirst()
+               .orElseThrow(() -> new RuntimeException("Product not found"));
+       items.remove(prod);
     }
 }

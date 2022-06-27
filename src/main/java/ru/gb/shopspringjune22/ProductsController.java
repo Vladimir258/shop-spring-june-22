@@ -20,11 +20,7 @@ public class ProductsController {
 
     @GetMapping("products/{id}")
     public Product getProductById(@PathVariable Long id) {
-        return productsRepository.getItems()
-                .stream()
-                .filter(p -> p.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+        return productsRepository.getItemById(id);
     }
 
     @PostMapping("/products")
@@ -32,11 +28,15 @@ public class ProductsController {
         productsRepository.add(product);
     }
 
-    @DeleteMapping("/deleteAll")
+    @DeleteMapping("/delete")
     public void deleteAll() {
-
+        productsRepository.deleteAllItems();
     }
 
+    @DeleteMapping("/delete/{id}")
+    public void deleteProductsById(@PathVariable Long id) {
+        productsRepository.deleteItemsById(id);
+    }
 
 
 }
